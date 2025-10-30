@@ -3,7 +3,7 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 
-image_path = r"D:\PSUFINAL\COI\lenna.png"
+image_path = r"D:\PSUFINAL\DIP\Lb3\lenna.png"
 
 if not os.path.exists(image_path):
     print("Файл не найден:", image_path)
