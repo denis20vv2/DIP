@@ -34,11 +34,12 @@ def add_gauss_noise(img, mean=0, sigma=0.15):
 
 final_rotated_image = cv2.imread('./Image-68-1c19cc.jpg')
 
+neg_image = 255 - final_rotated_image
 
 kernel55 = np.ones((5, 5), np.float32) / 25
 kernel77 = np.ones((7, 7), np.float32) / 49
 
-channels = cv2.split(final_rotated_image)
+channels = cv2.split(neg_image)
 noisy_channels = [add_gauss_noise(ch, 0, 0.15) for ch in channels]
 filtered_channels1 = [cv2.filter2D(ch, -1, kernel55) for ch in noisy_channels]
 filtered_channels2 = [cv2.filter2D(ch, -1, kernel77) for ch in noisy_channels]
@@ -90,9 +91,9 @@ kernel1 = np.array([[-1,-1,-1],[-1,9,-1],[-1,-1,-1]])
 kernel2 = np.array([[-0.25,-0.25,-0.25],[-0.25,3,-0.25],[-0.25,-0.25,-0.25]])
 kernel3 = np.array([[0,-0.25,0],[-0.25,2,-0.25],[0,-0.25,0]])
 
-filtered_image1 = cv2.filter2D(final_rotated_image, -1, kernel1)
-filtered_image2 = cv2.filter2D(final_rotated_image, -1, kernel2)
-filtered_image3 = cv2.filter2D(final_rotated_image, -1, kernel3)
+filtered_image1 = cv2.filter2D(neg_image, -1, kernel1)
+filtered_image2 = cv2.filter2D(neg_image, -1, kernel2)
+filtered_image3 = cv2.filter2D(neg_image, -1, kernel3)
 
 psnr1, ssim1 = getPSNR(final_rotated_image, filtered_image1), getSSIM(final_rotated_image, filtered_image1)
 psnr2, ssim2 = getPSNR(final_rotated_image, filtered_image2), getSSIM(final_rotated_image, filtered_image2)
@@ -101,7 +102,7 @@ psnr3, ssim3 = getPSNR(final_rotated_image, filtered_image3), getSSIM(final_rota
 plt.figure(figsize=(18, 8))
 plt.subplot(141)
 plt.title('Исходное изображение')
-plt.imshow(cv2.cvtColor(final_rotated_image, cv2.COLOR_BGR2RGB))
+plt.imshow(cv2.cvtColor(neg_image, cv2.COLOR_BGR2RGB))
 plt.axis('off')
 
 plt.subplot(142)
